@@ -1,46 +1,39 @@
-import { Button, Form, Input, Space } from 'antd';
-import { ValidateTrigger, type FlowNodeJSON, type FormMeta, type FormRenderProps } from "@flowgram.ai/free-layout-editor";
-import React from 'react';
+import { Button, Input, Space } from 'antd';
+import { Field, ValidateTrigger, type FieldRenderProps, type FlowNodeJSON, type FormMeta, type FormRenderProps } from "@flowgram.ai/free-layout-editor";
+import { type IJsonSchema } from '@flowgram.ai/form-materials';
 
 export const renderForm = ({ form }: FormRenderProps<FlowNodeJSON>) => {
-
-    const [formControl] = Form.useForm();
-
-    const [number, setNumber] = React.useState(0);
-
     return (
         <>
-            <Form
-                form={formControl}
-                initialValues={form.initialValues}
-                onValuesChange={(values) => {
-                    const keys = Object.keys(values);
-                    for (const key of keys) {
-                        const value = values[key];
-                        form.setValueIn(key, value)
-                    }
+            <Field
+                name='title'
+                render={(field: FieldRenderProps<IJsonSchema>) => {
+                    const name = field.field.name;
+                    const value = field.field.value;
+                    const errors = field.fieldState.errors;
+                    console.log(name, errors);
+                    return (
+                        <>
+                            {errors && errors.map(item => {
+                                return item.message;
+                            })}
+                            标题: <Input value={value as string} onChange={field.field.onChange} />
+                        </>
+                    )
                 }}
             >
-                <Form.Item
-                    name={"title"}
-                    label={"标题" + number}
-                >
-                    <Input />
-                </Form.Item>
-            </Form>
-
-            <Space>
-
+            </Field>
+            <Space
+                style={{
+                    marginTop: 5
+                }}
+            >
                 <Button onClick={() => {
-                    setNumber(number + 1)
-                }}>test</Button>
-
-                <Button onClick={() => {
-                    formControl.setFieldValue('title', '123');
+                    form.setValueIn('title', '123');
                 }}>set title</Button>
 
                 <Button onClick={() => {
-                    const title = formControl.getFieldValue('title');
+                    const title = form.getValueIn('title');
                     alert(title);
                 }}>get title</Button>
             </Space>
@@ -52,6 +45,10 @@ export const custom: FormMeta<FlowNodeJSON> = {
     render: renderForm,
     validateTrigger: ValidateTrigger.onChange,
     validate: {
-        title: ({ value }: { value: string }) => (value ? undefined : 'Title is required'),
+        title: ({ value }: { value: string }) => {
+            const result = value ? undefined : 'Title is required';
+            console.log('value:', result);
+            return result;
+        },
     }
 }

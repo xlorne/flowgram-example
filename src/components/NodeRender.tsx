@@ -22,7 +22,10 @@ const NodeRender = (props: WorkflowNodeProps) => {
             }}
             node={props.node}
         >
-            {form?.render()}
+            {selected && form?.render()}
+            {!selected && (
+                <>{form?.getValueIn('title')}</>
+            )}
         </WorkflowNodeRenderer>
     );
 };
