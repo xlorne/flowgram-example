@@ -1,9 +1,10 @@
 import { type CSSProperties, useEffect, useState } from 'react';
 
-import { usePlaygroundTools, useClientContext, LineType } from '@flowgram.ai/free-layout-editor';
+import { usePlaygroundTools, useClientContext, LineType, useRefresh } from '@flowgram.ai/free-layout-editor';
 
 export const Tools = () => {
-  const { history } = useClientContext();
+  const { history, document } = useClientContext();
+  const refresh = useRefresh();
   const tools = usePlaygroundTools();
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
@@ -84,6 +85,34 @@ export const Tools = () => {
         disabled={!canRedo}
       >
         Redo
+      </button>
+      <button
+        style={{
+          ...buttonStyle,
+          cursor: canUndo ? 'pointer' : 'not-allowed',
+          color: canUndo ? '#141414' : '#b1b1b1',
+        }}
+        onClick={() => {
+          const obj = document.toJSON();
+          const json = JSON.stringify(obj);
+          console.log(json);
+        }}
+      >
+        Download
+      </button>
+
+      <button
+        style={{
+          ...buttonStyle,
+          cursor: canUndo ? 'pointer' : 'not-allowed',
+          color: canUndo ? '#141414' : '#b1b1b1',
+        }}
+        onClick={() => {
+          const json =  {"nodes":[{"id":"2","type":"custom","meta":{"position":{"x":520,"y":0}},"data":{"title":"Custom Node A"}},{"id":"3","type":"custom","meta":{"position":{"x":520,"y":188}},"data":{"title":"Custom Node B"}},{"id":"4","type":"custom","meta":{"position":{"x":520,"y":376}},"data":{"title":"Custom Node C"}},{"id":"5","type":"end","meta":{"position":{"x":900,"y":188}},"data":{"title":"End Node"}},{"id":"1","type":"start","meta":{"position":{"x":140,"y":188}},"data":{"title":"Start Node"}}],"edges":[{"sourceNodeID":"1","targetNodeID":"2"},{"sourceNodeID":"2","targetNodeID":"5"},{"sourceNodeID":"1","targetNodeID":"3"},{"sourceNodeID":"3","targetNodeID":"5"},{"sourceNodeID":"1","targetNodeID":"4"},{"sourceNodeID":"4","targetNodeID":"5"}]}
+          document.fromJSON(json,true);
+        }}
+      >
+        Export
       </button>
     </div>
   );

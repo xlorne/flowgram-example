@@ -8,10 +8,8 @@ export const renderForm = ({ form }: FormRenderProps<FlowNodeJSON>) => {
             <Field
                 name='title'
                 render={(field: FieldRenderProps<IJsonSchema>) => {
-                    const name = field.field.name;
                     const value = field.field.value;
                     const errors = field.fieldState.errors;
-                    console.log(name, errors);
                     return (
                         <>
                             {errors && errors.map(item => {
@@ -46,9 +44,7 @@ export const custom: FormMeta<FlowNodeJSON> = {
     validateTrigger: ValidateTrigger.onChange,
     validate: {
         title: ({ value }: { value: string }) => {
-            const result = value ? undefined : 'Title is required';
-            console.log('value:', result);
-            return result;
+            return value ? undefined : 'Title is required';
         },
     }
 }

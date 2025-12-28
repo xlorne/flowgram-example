@@ -2,11 +2,12 @@ import { useMemo } from 'react';
 
 import { createMinimapPlugin } from '@flowgram.ai/minimap-plugin';
 import { createFreeSnapPlugin } from '@flowgram.ai/free-snap-plugin';
-import { Field, FreeLayoutProps } from '@flowgram.ai/free-layout-editor';
+import { Field, FreeLayoutProps} from '@flowgram.ai/free-layout-editor';
 
 import NodeRender from '../components/NodeRender';
 import { nodeRegistries } from './node-registries';
 import { initialData } from './initial-data';
+
 
 export const useEditorProps = () =>
   useMemo<FreeLayoutProps>(
