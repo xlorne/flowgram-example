@@ -24,7 +24,9 @@ const NodeRender = (props: WorkflowNodeProps) => {
         >
             {selected && form?.render()}
             {!selected && (
-                <>{form?.getValueIn('title')}</>
+                <>
+                    {form?.getValueIn('title')}
+                </>
             )}
         </WorkflowNodeRenderer>
     );

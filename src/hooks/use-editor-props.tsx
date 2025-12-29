@@ -7,6 +7,7 @@ import { Field, FreeLayoutProps} from '@flowgram.ai/free-layout-editor';
 import NodeRender from '../components/NodeRender';
 import { nodeRegistries } from './node-registries';
 import { initialData } from './initial-data';
+import { createContainerNodePlugin } from '@flowgram.ai/free-container-plugin';
 
 
 export const useEditorProps = () =>
@@ -22,6 +23,7 @@ export const useEditorProps = () =>
           },
         }),
         createFreeSnapPlugin({}),
+        createContainerNodePlugin({}),
       ],
       onAllLayersRendered: (ctx) => {
         ctx.tools.fitView(false);

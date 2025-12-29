@@ -1,10 +1,14 @@
 import { Button, Input, Space } from 'antd';
-import { Field, ValidateTrigger, type FieldRenderProps, type FlowNodeJSON, type FormMeta, type FormRenderProps } from "@flowgram.ai/free-layout-editor";
+import { Field,  ValidateTrigger, type FieldRenderProps, type FlowNodeJSON, type FormMeta, type FormRenderProps } from "@flowgram.ai/free-layout-editor";
 import { type IJsonSchema } from '@flowgram.ai/form-materials';
+import { SubCanvasRender } from '@flowgram.ai/free-container-plugin';
 
 export const renderForm = ({ form }: FormRenderProps<FlowNodeJSON>) => {
+
+    const formHeight = 0;
+
     return (
-        <>
+        <div>
             <Field
                 name='title'
                 render={(field: FieldRenderProps<IJsonSchema>) => {
@@ -21,6 +25,7 @@ export const renderForm = ({ form }: FormRenderProps<FlowNodeJSON>) => {
                 }}
             >
             </Field>
+            <SubCanvasRender offsetY={-formHeight} />
             <Space
                 style={{
                     marginTop: 5
@@ -35,7 +40,7 @@ export const renderForm = ({ form }: FormRenderProps<FlowNodeJSON>) => {
                     alert(title);
                 }}>get title</Button>
             </Space>
-        </>
+        </div>
     );
 };
 
